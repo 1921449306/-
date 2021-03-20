@@ -8,10 +8,18 @@ export function reqLogin(data) {
   })
 }
 
-export function getInfo(token) {
-
+export function reqgetUserInfo() {
+  return request({
+    method: 'POST',
+    url: '/sys/profile'
+  })
 }
-
+export function reqUserDetailInfo(id) {
+  return request({
+    method: 'GET',
+    url: `/sys/user/${id}`
+  })
+}
 export function logout() {
 
 }

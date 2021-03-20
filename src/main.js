@@ -14,6 +14,8 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+// import { imgerror, color } from '@/directives'
+import * as directives from '@/directives'
 
 /**
  * If you don't want to use mock-server
@@ -29,6 +31,10 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+
+Object.keys(directives).forEach((item) => {
+  Vue.directive(item, directives[item])
+})
 
 new Vue({
   el: '#app',

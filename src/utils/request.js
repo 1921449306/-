@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
 import { Message } from 'element-ui'
+import router from '@/router'
 
 // 创建一个axios的实例
 const service = axios.create({
@@ -26,7 +27,6 @@ service.interceptors.response.use(function(response) {
   // 对响应数据做点什么
   const res = response.data
   const { success, message } = res
-  console.log(success)
   if (!success) {
     console.log(message)
     Message.error(message)
@@ -35,8 +35,14 @@ service.interceptors.response.use(function(response) {
   return res
 }, function(error) {
   console.dir(error)
-  Message.error(error.message)
-  // 对响应错误做点什么
+  if (!error.response.data.success && error.response.data.code === 10002) {
+    Message.error('登录会话过期，请重新登录')
+    store.dispatch('user/logout')
+    router.push('/login')
+  } else {
+    Message.error(error.message)
+    // 对响应错误做点什么
+  }
   return Promise.reject(error)
 })
 
